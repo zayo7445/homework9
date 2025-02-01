@@ -49,8 +49,12 @@ export function toHashtable(people: People, relations: Relations): PersonTable {
         const child: Person | undefined = ph_lookup(ht, childId);
 
         if (parent && child) {
-            if (!parent.children.includes(childId)) parent.children.push(childId);
-            if (!child.parents.includes(parentId)) child.parents.push(parentId);
+            if (!parent.children.includes(childId)) {
+                parent.children.push(childId);
+            }
+            if (!child.parents.includes(parentId)) {
+                child.parents.push(parentId);
+            }
         }
         relations = tail(relations);
     }
@@ -68,7 +72,9 @@ export function toHashtable(people: People, relations: Relations): PersonTable {
  */
 export function descendants(ht: PersonTable, id: number): Array<number> | undefined {
     const ancestor: Person | undefined = ph_lookup(ht, id);
-    if (!ancestor) return undefined;
+    if (!ancestor) {
+        return undefined;
+    }
 
     const result: Array<number> = [];
     const stack: Array<number> = [...ancestor.children];
@@ -76,9 +82,13 @@ export function descendants(ht: PersonTable, id: number): Array<number> | undefi
     while (stack.length) {
         const current: number | undefined = stack.pop();
         if (current !== undefined) {
-            if (!result.includes(current)) result.push(current);
+            if (!result.includes(current)) {
+                result.push(current);
+            }
             const child: Person | undefined = ph_lookup(ht, current);
-            if (child?.children) stack.push(...child.children);
+            if (child?.children) {
+                stack.push(...child.children);
+            }
         }
     }
     return result;
